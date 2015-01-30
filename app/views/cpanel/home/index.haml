@@ -1,0 +1,56 @@
+.row
+  %h1 基本数据
+
+:css
+  .table a { color: black; }
+.row
+  %table.table.table-bordered.table-condensed
+    %thead
+      %tr
+        %td{style: "max-width:20%;"} 参数
+        %td 数量
+    %tbody
+      %tr
+        %td 用户
+        %td= User.all.count
+      %tr
+        %td 活动
+        %td= Campaign.all.count
+.row
+  %h1 基本数据
+
+.row
+  %table.table.table-bordered.table-condensed
+    %thead
+      %tr
+        %td{style: "max-width:20%;"} 参数
+        %td 信息
+    %tbody
+      %tr
+        %td sysdate
+        %td= Time.now.strftime("%Y/%m/%d %H:%M:%S")
+      %tr
+        %td startup 
+        %td= ENV["DATE_STARTUP_FORMAT"]
+      %tr
+        %td root
+        %td= ENV["APP_ROOT_PATH"] + " == !~"
+      %tr
+        %td size
+        %td= @app_size
+      %tr
+        %td whoami
+        %td= @whoami
+      %tr
+        %td environment
+        %td= ENV["RACK_ENV"]
+      %tr
+        %td language 
+        %td= link_to "Ruby #{RUBY_VERSION} -p#{RUBY_PATCHLEVEL if defined? RUBY_PATCHLEVEL }", "https://github.com/ruby/ruby", target: "blank"
+      %tr
+        %td webapp
+        %td= link_to "Sinatra ~> #{Sinatra::VERSION}", "https://github.com/bmizerany/sinatra", target: "blank"
+      %tr
+        %td httpserver
+        %td= link_to "Unicorn ~> #{Unicorn::Const::UNICORN_VERSION}", "https://github.com/defunkt/unicorn", target: "blank"
+

@@ -1,0 +1,48 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+# 注意:
+#
+# 文件添加至本地文件，而依然被跟踪,可使用下面代码，把该文件从cached中删除。
+# git rm --cached un_wanted_be_tracked_file_name
+#
+*.vcf
+*.gz
+# 由数据库内容动态改变
+
+# 项目配置文件 => *.yaml.example
+config/*.yml
+config/*.yaml
+
+
+# 项目本地文件夹
+/log/
+/db/
+/tmp/
+/vendor/
+/public
+.sass-cache/
+
+# 数据库/log文件
+/db/*.db
+/db/*.sqlite3
+/log/*.log
+
+# 系统配置文件
+.ruby-version
+.DS_Store
+
+# 临时文件
+*.gem
+*.rbc
+.config
+*.lock
+*.out
+.sass*
+.coffee*
+*cache
+.git
+.bundle
+*.swp
+*~
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc

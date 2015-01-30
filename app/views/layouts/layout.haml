@@ -1,0 +1,42 @@
+-# coding: UTF-8
+/
+  \========================================================
+  agent of mailhok.com 
+  \ 
+  App Environments:
+  \--------------------------------------------------------
+  = "Ruby: #{RUBY_VERSION} -p#{RUBY_PATCHLEVEL if defined? RUBY_PATCHLEVEL }"
+!!!
+%html
+  %head
+    %title= Setting.website.title
+    %meta{name: "renderer", content:"webkit"}
+    %meta{"http-equiv" => "X-UA-Compatible", content: "IE=edge"}
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
+    %meta{"http-equiv" => "content-type", content: "text/html", charset: "UTF-8"}
+    %link{href: "#{Setting.website.favicon}", rel: "shortcut icon"}
+    = javascript_include_tag "jquery.js"
+    = javascript_include_tag "bootstrap.320.min.js"
+    = stylesheet_link_tag "bootstrap.320.min.css"
+    = stylesheet_link_tag "application.css"
+    -if mobile? 
+      %meta{:content => "no", :name => "apple-mobile-web-app-capable"}
+      %meta{:content => "True", :name => "HandheldFriendly"}
+      %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no", :name => "viewport"}/
+      :css
+        body { max-width: 1000px; min-width:300px; }
+
+  %body{style: "background:#f0f0f0;"}
+    = haml :"../layouts/_header"
+    .container
+      .row
+        %div{class: "#{mobile? ? 'col-sm-12' : 'col-sm-8 col-sm-offset-2'}", style: "padding-left:0px;"}
+          .loading.hidden{style: "text-align:center;"} 加载中...
+          = flash_message
+      .row{style: "margin-left:0px;"}
+        %div{class: "#{mobile? ? 'col-sm-12' : 'col-sm-8 col-sm-offset-2'}", style: "padding-left:0px;"}
+          = yield
+
+    .container
+      .row{style: "text-align: center;"}
+        .footer &copy; #{Time.now.strftime("%Y")} #{Setting.website.footer}
