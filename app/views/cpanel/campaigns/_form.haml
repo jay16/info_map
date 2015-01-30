@@ -6,7 +6,7 @@
     %li= e
 
 
-%form{role: "form", action: @form_path, method: "post", id: "campaign_form"}
+%form{role: "form", action: @form_path, method: "post", id: "campaignForm"}
   %input{:name => "campaign[user_id]", :type => "hidden", :value => "#{@campaign.user_id}"}
   %input{:name => "campaign[colnum]", :type => "hidden", :value => "#{@campaign.colnum}"}
 

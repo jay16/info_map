@@ -6,14 +6,12 @@ environment=$(test -z "$3" && echo "production" || echo "$3")
 unicorn=unicorn  
 config_file=./config/unicorn.rb  
 pid_file=./tmp/pids/unicorn.pid
-app_root_path=$(cat ./tmp/app_root_path)
   
 case "$1" in  
     start)  
         test -d log || mkdir log
         test -d tmp || mkdir -p tmp/pids
 
-        cd ${app_root_path}
         echo -e "\t## start unicorn"
         echo -e "\t port: ${port}"
         echo -e "\t environment: ${environment}"
@@ -21,9 +19,6 @@ case "$1" in
 
         bundle exec ${unicorn} -c ${config_file} -p ${port} -E ${environment} -D
         echo -e "\t unicorn start $(test $? -eq 0 && echo "successfully" || echo "failed")."
-
-        echo -e "\t## start nohup"
-        /bin/sh nohup.sh start
         ;;  
     stop)  
         echo -e "\t## stop unicorn"
@@ -34,9 +29,6 @@ case "$1" in
         else
             echo -e "\t unicorn stop failed - process not exist."
         fi
-
-        echo -e "\t## stop nohup"
-        /bin/sh nohup.sh stop
         ;;  
     restart|force-reload)  
         kill -usr2 `cat tmp/pids/unicorn.pid`  
