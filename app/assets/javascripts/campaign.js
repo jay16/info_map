@@ -5,22 +5,28 @@
       colnum = $("#campaignForm .campaign-column").length;
       colnum += 1;
       new_column = '<div class="form-group campaign-column new-column" data-index="' + colnum + '">';
-      new_column += '  <label for="name" style="min-width:55px;">* 字段#1</label>';
+      new_column += '  <label for="name" style="min-width:55px;">字段#1</label>';
       new_column += '  <input class="form-control require column" onkeyup="Campaign.inputMonitor();" onchange="Campaign.inputMonitor();" oninput="Campaign.inputMonitor();" name="campaign[column' + colnum + ']" placeholder="column' + colnum + '" style="width:20%;min-width:20px;display:inline;" type="text" value="">';
       new_column += '  <a class="btn btn-default btn-sm btn-danger" href="javascript:void(0);" onclick="Campaign.removeColumn(this);"><span class="glyphicon glyphicon-minus"></span></a>';
+      new_column += '  <a class="btn btn-default btn-sm btn-info" href="javascript:void(0);" onclick="Campaign.addColumnConstraint(this);"><span class="glyphicon glyphicon-plus"></span></a>';
       new_column += '  <span class="alert alert-danger" style="display:inline;padding:5px;">不可为空;</span>';
       new_column += '</div>';
-      return $("#campaignForm .add-column").last().before(new_column);
+      $("#campaignForm .add-column").last().before(new_column);
+      Campaign.renameColumn();
+      return Campaign.inputMonitor();
+    },
+    addColumnConstraint: function(self) {
+      return $("#columnConstraint").modal("show");
     },
     renameColumn: function() {
       return $("#campaignForm .campaign-column").each(function(index) {
         var $input, $label, column_index, text;
         column_index = index + 1;
-        text = "字段#" + column_index;
+        text = "字段 #" + column_index;
         $(this).attr("data-index", column_index);
         $label = $(this).children("label:first");
-        if ($label.text() !== text + "*") {
-          $label.html(text + "*");
+        if ($label.text() !== text) {
+          $label.html(text);
         }
         $input = $(this).children("input");
         text = text + " 名称";

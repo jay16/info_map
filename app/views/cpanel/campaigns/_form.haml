@@ -22,11 +22,43 @@
     %label{:for => "desc", style: "min-width:55px;"}
     =link_to "添加字段", "javascript:void(0);", class: "btn btn-primary", style: "",  onclick: "Campaign.addColumn();"
 
-  :javascript
-    $(function() {
-      Campaign.inputMonitor();
-      return $("input").bind("change keyup input", function() {
-        return Campaign.inputMonitor();
-      });
+.modal#columnConstraint
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4.modal-title 字段约束
+      .modal-body
+        %form{:role => "form"}
+          .form-group
+            %label 数据类型
+            %select.form-control{style: "width: 200px;"}
+              %option 整型/浮点型
+              %option 字符串
+          .form-group
+            %label 约束关系 
+            %br
+            %select.form-control{style:"width:100px;display:inline-block;"}
+              %option &gt;
+              %option &lt;
+              %option &gt;=
+              %option ==
+              %option !=
+            %input.form-control{type: "text", style: "width: 100px;display:inline-block;"}
+            %a.btn.btn-default.btn-sm.btn-danger{:href => "javascript:void(0);", :onclick => "Campaign.addColumnConstraint(this);"}
+              %span.glyphicon.glyphicon-minus
+          .form-group.add-column
+            =link_to "添加约束", "javascript:void(0);", class: "btn btn-primary", style: "",  onclick: "Campaign.addColumnConstraint();"
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+
+
+:javascript
+  $(function() {
+    Campaign.inputMonitor();
+    return $("input").bind("change keyup input", function() {
+      return Campaign.inputMonitor();
     });
-    
+  });
+  
