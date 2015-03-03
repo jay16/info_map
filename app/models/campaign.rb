@@ -19,12 +19,20 @@ class Campaign
     has n, :constraints
     belongs_to :user, requried: false
 
-    def entity_params(params)
+    def column_mapping
       (1..self.colnum).inject({}) do |param, i|
-        colalias = self.instance_variable_get("@column%d" % i)
-        value = params.find { |k, p| k.to_s == colalias }[1]
-        param.merge!({ "#{colname}" => CGI.unescape(value) })
+        colname = "column%d" % i
+        colalias = self.instance_variable_get("@"+colname)
+        param.merge!({ "#{colalias}" => "#{colname}" })
       end
+    end
+
+    def entity_params(params, column_mapping = self.column_mapping)
+      new_params = {}
+      params.each_pair do |key, value|
+        new_params[column_mapping[key]] = value
+      end
+      return new_params
     end
 
     def human_name

@@ -1,4 +1,5 @@
 ﻿#encoding: utf-8
+require "json"
 require 'digest/md5'
 require "sinatra/multi_route"
 require 'will_paginate'
@@ -24,16 +25,12 @@ class ApplicationController < Sinatra::Base
   helpers HomeHelper
 
   before do
-    #@request_body = request_body || ""
-    #if @request.is_a?(Hash)
-    #  hash = JSON.parse(@request_body) rescue {}
-    #  @params = params.merge(hash)
-    #else
-    #  @params = params.merge(@request_body)
-    #end
-    #@params = @params.merge({ip: remote_ip, browser: remote_browser})
+    @request_body = request_body
+    request_hash = JSON.parse(@request_body) rescue {}
+    @params = params.merge(request_hash)
+    @params = @params.merge({ip: remote_ip, browser: remote_browser})
 
-    #print_format_logger
+    print_format_logger
   end
 
   #def self.inherited(subclass)

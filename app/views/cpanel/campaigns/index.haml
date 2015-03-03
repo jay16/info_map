@@ -20,7 +20,12 @@
           %td= campaign.name
           %td= campaign.desc
           %td= campaign.colnum
-          %td= campaign.entities.count
+          - count = campaign.entities.count
+          %td
+            -if count > 0
+              = link_to count, "/cpanel/campaigns/%i/entities" % campaign.id
+            - else
+              0
           %td
 
 .row

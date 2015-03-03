@@ -1,0 +1,21 @@
+
+.row
+  :css
+    .table { table-layout: fixed; }
+    .table td { word-break:break-all }
+  %table.table.table-bordered
+    %thead
+      %tr
+        %th 
+        - (1..@campaign.colnum).each do |i|
+          %th= @campaign.instance_variable_get("@column%i" % i)
+    %tbody
+      - @entities.each_with_index do |entity, index|
+        %tr
+          - page_offset = (params[:page].nil? ? 0 : params[:page].to_i-1) * 30
+          %td= page_offset + index + 1
+          - (1..@campaign.colnum).each do |i|
+            %td= entity.instance_variable_get("@column%i" % i)
+
+.row
+  = will_paginate @entities, :previous_label => "上一页", :next_label => "下一页", renderer: BootstrapPagination::Sinatra

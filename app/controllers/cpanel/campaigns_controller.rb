@@ -10,6 +10,13 @@ class Cpanel::CampaignsController < Cpanel::ApplicationController
     haml :index, layout: settings.layout
   end
 
+  get "/:id/entities" do
+    @campaign = current_user.campaigns.first(id: params[:id])
+    @entities = @campaign.entities.paginate(:page => params[:page], :per_page => 30)
+
+    haml :entities, layout: settings.layout
+  end
+
   get "/new" do
     @campaign = current_user.campaigns.new
 
