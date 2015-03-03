@@ -2,3 +2,26 @@
   %h1{style: "display: inline-block;"} 活动
   = link_to "添加", "/cpanel/campaigns/new", class: "btn btn-sm btn-default", style: "margin-bottom: 15px;"
 
+.row
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 
+        %th 名称
+        %th 描述
+        %th 字段
+        %th 数据
+        %th 操作
+    %tbody
+      - @campaigns.each_with_index do |campaign, index|
+        %tr
+          - page_offset = (params[:page].nil? ? 0 : params[:page].to_i-1) * 30
+          %td= page_offset + index + 1
+          %td= campaign.name
+          %td= campaign.desc
+          %td= campaign.colnum
+          %td= campaign.entities.count
+          %td
+
+.row
+  = will_paginate @campaigns, :previous_label => "上一页", :next_label => "下一页", renderer: BootstrapPagination::Sinatra

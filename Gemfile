@@ -29,6 +29,9 @@ gem "sass", "~>3.3.7"
 gem "therubyracer", "~>0.11.4"
 gem "coffee-script", "~>2.2.0"
 
+gem 'will_paginate', '~> 3.0.6'
+gem "will_paginate-bootstrap", "~>1.0.1"
+
 gem "unicorn", "~>4.8.3"
 gem "rake", "~>10.3.2"
 gem "settingslogic", "~>2.0.9"

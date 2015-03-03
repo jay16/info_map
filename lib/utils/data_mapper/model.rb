@@ -123,7 +123,7 @@ module Utils
           if self.save
             puts "%s successfully." % _template
             puts "\n\n"
-            action_logger(self, "create", "")
+            #action_logger(self, "create", "")
             return true
           else
             puts "%s failed:" % _template

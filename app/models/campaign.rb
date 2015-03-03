@@ -26,6 +26,7 @@ class Campaign
         param.merge!({ "#{colname}" => CGI.unescape(value) })
       end
     end
+
     def human_name
       "活动"
     end

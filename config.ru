@@ -1,8 +1,9 @@
 #encoding: utf-8
 @app_routes_map = {
-  "/"       => "HomeController",
-  "/users"  => "UsersController",
-  "/cpanel" => "Cpanel::HomeController",
+  "/"                 => "HomeController",
+  "/users"            => "UsersController",
+  "/api/entity"       => "API::EntityController",
+  "/cpanel"           => "Cpanel::HomeController",
   "/cpanel/users"     => "Cpanel::UsersController",
   "/cpanel/campaigns" => "Cpanel::CampaignsController"
 }

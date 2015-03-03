@@ -5,22 +5,35 @@
   - @campaign.errors.each do |e|
     %li= e
 
+:css
+  #campaignForm input { width: 60%; display: inline; }
+  #campaignForm textarea { width: 60%; display: inline; }
+  #campaignForm .alert-danger { display: inline; padding: 5px; }
 
-%form{role: "form", action: @form_path, method: "post", id: "campaignForm"}
-  %input{:name => "campaign[user_id]", :type => "hidden", :value => "#{@campaign.user_id}"}
-  %input{:name => "campaign[colnum]", :type => "hidden", :value => "#{@campaign.colnum}"}
+- url = "/cpanel/campaigns" + (@campaign.id ? "/#{@campaign.id}" : "")
+- form_for @campaign, url, id: "campaignForm", class: "form-horizontal", role: "form" do |f|
+  = f.hidden_field :user_id
+  = f.hidden_field :colnum
 
   .form-group
-    %label{:for => "name", style: "min-width:55px;"} 名称*
-    %input#name.form-control.require.name{:placeholder => "name", :type => "text", :name => "campaign[name]", :value => "#{@campaign.name}", style: "width:60%;display:inline;"}
-    %span.hidden.alert.alert-danger{style: "display:inline;padding:5px;"}
+    = f.label "名称", class: "col-lg-2 control-label"
+    .col-lg-10
+      = f.text_field :name, class: "form-control require", placeholder: "活动名称"
+      %span.hidden.alert.alert-danger
 
   .form-group
-    %label{:for => "desc", style: "min-width:55px;"} 描述
-    <textarea class="form-control" rows="3" name="campaign[desc]" style="width:60%;display:inline;">#{@campaign.desc}</textarea>
+    = f.label "描述", class: "col-lg-2 control-label"
+    .col-lg-10
+      = f.text_area :desc, class: "form-control", placeholder: "活动简介"
+      %span.hidden.alert.alert-danger
+
   .form-group.add-column
-    %label{:for => "desc", style: "min-width:55px;"}
-    =link_to "添加字段", "javascript:void(0);", class: "btn btn-primary", style: "",  onclick: "Campaign.addColumn();"
+    .col-lg-4.col-lg-offset-2
+      =link_to "添加字段", "javascript:void(0);", class: "btn btn-default", style: "",  onclick: "Campaign.addColumn();"
+
+  .form-group
+    .col-lg-4.col-lg-offset-2
+      = f.submit "提交", class: "btn btn-primary"
 
 .modal#columnConstraint
   .modal-dialog
