@@ -119,10 +119,9 @@ module Utils
         # ´òÓ¡±£´æ×´Ì¬
         # TODO print Colorfully
         def save_with_logger
-          _template = "\n\nModel - %s saved" % self.class.name
+          _template = "Model - %s saved" % self.class.name
           if self.save
-            puts "%s successfully." % _template
-            puts "\n\n"
+            puts "%s successfully.\n" % _template
             #action_logger(self, "create", "")
             return true
           else
@@ -130,7 +129,7 @@ module Utils
             self.errors.each_pair do |key, value|
               puts "%-15s => %s" % [key, value]
             end
-            puts "\n\n"
+            puts "\n"
             return false
           end
         end

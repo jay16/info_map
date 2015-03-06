@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     user = User.first(email: params[:user][:email])
     if user and user.password == md5_key(params[:user][:password])
       response.set_cookie "cookie_user_login_state", {:value=> user.email, :path => "/", :max_age => "2592000"}
+      user.sign_in_event(remote_ip)
 
       flash[:success] = "登陆成功"
       redirect request.cookies["cookie_before_login_path"] || "/users"
@@ -49,9 +50,11 @@ class UsersController < ApplicationController
     user_params.delete("confirm_password")
     user_params[:password] = md5_key(user_params[:password])
     user = User.new(user_params)
+    user.uid = md5_key(user.email)
 
     if user.save
       response.set_cookie "_email", {:value=> user.email, :path => "/", :max_age => "2592000"}
+      user.sign_in_event(remote_ip)
       flash[:success] = "注册成功，请登陆."
 
       redirect "/users/login"
@@ -74,9 +77,9 @@ class UsersController < ApplicationController
 
   # post /user/check_email_exist
   post "/check_email_exist" do
-    user = User.first(email: params[:user][:email])
-    res  = { valid: user.nil? }.to_json
-    content_type "application/json"
-    body res
+    email = params[:user][:email] rescue "notset"
+    user = User.first(email: email)
+    hash = { valid:  user.nil?, code: 200 }
+    respond_with_json hash, 200
   end
 end

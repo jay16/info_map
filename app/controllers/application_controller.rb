@@ -89,7 +89,7 @@ class ApplicationController < Sinatra::Base
   def print_format_logger
     log_info = "#{request.request_method} #{request.path} for #{request.ip} at #{Time.now.to_s}"
     log_info << "\nParameters:\n #{@params.to_s}"
-    log_info << "\nRequest:\n #{@request_body}" unless @request_body.empty?
+    #log_info << "\nRequest:\n #{@request_body}" unless @request_body.empty?
     puts log_info
     logger.info log_info
   end

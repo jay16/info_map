@@ -33,7 +33,7 @@ $(document).ready ->
           remote:
             type: "post"
             delay: true
-            url: "/user/check_email_exist"
+            url: "/users/check_email_exist"
             message: "该邮箱已被注册"
       "user[password]":
         validators:
@@ -55,15 +55,6 @@ $(document).ready ->
           different:
             field: "user[name]"
             message: "确认密码不可以包含用户名称."
-      captcha:
-        validators:
-          callback:
-            message: "计算错误."
-            callback: (value, validator) ->
-              items = $("#captchaOperation").html().split(" ")
-              sum   = parseInt(items[0]) + parseInt(items[2])
-              value = parseInt(value)
-              value is sum
 
   $("#validateBtn").click ->
     $("#registerForm").bootstrapValidator "validate"

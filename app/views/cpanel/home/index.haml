@@ -7,7 +7,7 @@
   %table.table.table-bordered.table-condensed
     %thead
       %tr
-        %td{style: "max-width:20%;"} 参数
+        %td{style: "width:20%;"} 参数
         %td 数量
     %tbody
       %tr
@@ -16,14 +16,47 @@
       %tr
         %td 活动
         %td= Campaign.all.count
+
 .row
-  %h1 基本数据
+  %h1 登陆数据 
+
+:css
+  .table a { color: black; }
+.row
+  %table.table.table-bordered.table-condensed
+    %thead
+      %tr
+        %td{style: "width:20%;"} 参数
+        %td 数量
+    %tbody
+      %tr
+        %td 用户标识 
+        %td= "[%s]" % current_user.uid
+      %tr
+        %td 登陆次数
+        %td= current_user.sign_in_count 
+      %tr
+        %td 上次登陆时间
+        %td= current_user.last_sign_in_at
+      %tr
+        %td 上次登陆ip 
+        %td= current_user.last_sign_in_ip
+      %tr
+        %td 当前登陆时间
+        %td= current_user.current_sign_in_at
+      %tr
+        %td 当前登陆ip 
+        %td= current_user.current_sign_in_ip
+
+
+.row
+  %h1 系统状态
 
 .row
   %table.table.table-bordered.table-condensed
     %thead
       %tr
-        %td{style: "max-width:20%;"} 参数
+        %td{style: "width:20%;"} 参数
         %td 信息
     %tbody
       %tr

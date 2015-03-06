@@ -37,7 +37,7 @@
             remote: {
               type: "post",
               delay: true,
-              url: "/user/check_email_exist",
+              url: "/users/check_email_exist",
               message: "该邮箱已被注册"
             }
           }
@@ -69,20 +69,6 @@
             different: {
               field: "user[name]",
               message: "确认密码不可以包含用户名称."
-            }
-          }
-        },
-        captcha: {
-          validators: {
-            callback: {
-              message: "计算错误.",
-              callback: function(value, validator) {
-                var items, sum;
-                items = $("#captchaOperation").html().split(" ");
-                sum = parseInt(items[0]) + parseInt(items[2]);
-                value = parseInt(value);
-                return value === sum;
-              }
             }
           }
         }

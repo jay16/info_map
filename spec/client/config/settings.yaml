@@ -1,0 +1,18 @@
+default: &default
+  base:
+    url: "http://localhost:3000"
+  tasks:
+    log_parser:
+      filepath: "/Users/lijunjie/Code/work/info_map/spec/data/mgmailerd.log"
+      campaign:
+        token: "c6f3e63b59d76848a1ee61b578bcde3a"
+        path: "/api/entity"
+
+production:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default

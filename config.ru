@@ -2,6 +2,7 @@
 @app_routes_map = {
   "/"                 => "HomeController",
   "/users"            => "UsersController",
+  "/api/campaign"     => "API::CampaignController",
   "/api/entity"       => "API::EntityController",
   "/cpanel"           => "Cpanel::HomeController",
   "/cpanel/users"     => "Cpanel::UsersController",

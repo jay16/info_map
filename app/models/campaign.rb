@@ -19,6 +19,12 @@ class Campaign
     has n, :constraints
     belongs_to :user, requried: false
 
+    def to_params
+      params = { name: name, desc: desc , token: token , colnum: colnum }
+      params[:columns] = (1..colnum).map { |i| instance_variable_get("@column%d" % i) }
+      return params
+    end
+
     def column_mapping
       (1..self.colnum).inject({}) do |param, i|
         colname = "column%d" % i
@@ -27,6 +33,7 @@ class Campaign
       end
     end
 
+    # params for creating entity
     def entity_params(params, column_mapping = self.column_mapping)
       new_params = {}
       params.each_pair do |key, value|
