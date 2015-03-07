@@ -14,13 +14,10 @@ end
 
 task :simple do
   require "settingslogic"
-  require "open-uri"
-  require "json"
   @options ||= {}
   @options[:rack_env] = ENV["RACK_ENV"] ||= "production"
   ENV["APP_ROOT_PATH"] = @options[:app_root_path] = Dir.pwd
   load "%s/app/models/settings.rb" % @options[:app_root_path]
-  require File.expand_path('../config/boot.rb', __FILE__)
 
   def base_on_root_path(path)
     if @options.has_key?(:app_root_path)
@@ -29,9 +26,5 @@ task :simple do
       raise "[dangerous] @options missing key - :app_root_path"
     end
   end
-
-  @options[:weixin_app_id]     = Settings.weixin.app_id
-  @options[:weixin_app_secret] = Settings.weixin.app_secret
-  @options[:weixin_base_url]   = "https://api.weixin.qq.com/cgi-bin"
 end
 Dir.glob('lib/tasks/*.rake').each { |file| load file }

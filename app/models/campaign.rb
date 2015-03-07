@@ -11,7 +11,7 @@ class Campaign
     property :desc,     String
     property :token,    String
     property :colnum,   Integer, :default => 1 # column quantity
-    (1..::Setting.campaign.colnum.maximum || 32).each do |index| 
+    (1..::Settings.campaign.colnum.maximum || 32).each do |index| 
       property "column#{index}".to_sym, String
     end
 

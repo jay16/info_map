@@ -49,7 +49,7 @@ recursion_require("lib/utils/core_ext", /\.rb$/, root_path)
 # config文夹下为配置信息优先加载
 # modle信息已在asset-hanler中加载
 # asset-hanel嵌入在application_controller
-require "app/models/setting.rb"
+require "app/models/settings.rb"
 require "asset-handler"
 
 # helper will include into controller

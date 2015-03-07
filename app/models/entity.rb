@@ -7,7 +7,7 @@ class Entity
     include Utils::ActionLogger
 
     property :id, Serial 
-    (1..::Setting.campaign.colnum.maximum || 32).each do |i| 
+    (1..::Settings.campaign.colnum.maximum || 32).each do |i| 
       property "column#{i}".to_sym, String 
     end
 
