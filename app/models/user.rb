@@ -31,7 +31,7 @@ class User
     end
 
     def admin?
-      ::Setting.admins.split(/;/).include?(self.email)
+      ::Settings.admins.split(/;/).include?(self.email)
     end
 
     def sign_in_event(ip)

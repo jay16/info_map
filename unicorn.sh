@@ -1,48 +1,51 @@
 #!/bin/sh  
+# 
+PORT=$(test -z "$2" && echo "4003" || echo "$2")
+ENVIRONMENT=$(test -z "$3" && echo "production" || echo "$3")
 
-port=$(test -z "$2" && echo "3456" || echo "$2")
-environment=$(test -z "$3" && echo "production" || echo "$3")
+UNICORN=unicorn  
+CONFIG_FILE=config/unicorn.rb  
+ 
+APP_ROOT_PATH=$(pwd)
 
-unicorn=unicorn  
-config_file=./config/unicorn.rb  
-pid_file=./tmp/pids/unicorn.pid
-  
 case "$1" in  
     start)  
         test -d log || mkdir log
+        test -d public || mkdir public
         test -d tmp || mkdir -p tmp/pids
 
-        echo -e "\t## start unicorn"
-        echo -e "\t port: ${port}"
-        echo -e "\t environment: ${environment}"
-        echo -e "\t $(ruby -v)"
+        echo "## compile phantom's C codes"
+        cd ${APP_ROOT_PATH}
+        cd lib/utils/processPattern 
+        gcc buildPatternHeader.c -o buildPatternHeader > /dev/null 2>&1
+        echo -e "\t compile header $(test $? -eq 0 && echo "successfully" || echo "failed")."
+        ./buildPatternHeader
+        gcc processPattern.c -o processPattern > /dev/null 2>&1
+        echo -e "\t compile pattern $(test $? -eq 0 && echo "successfully" || echo "failed")."
+        # back to app_root_path
+        cd ${APP_ROOT_PATH}
 
-        bundle exec ${unicorn} -c ${config_file} -p ${port} -E ${environment} -D
+        echo "## start unicorn"
+        echo -e "\t port: ${PORT} \n\t environment: ${ENVIRONMENT}"
+        bundle exec ${UNICORN} -c ${CONFIG_FILE} -p ${PORT} -E ${ENVIRONMENT} -D  
         echo -e "\t unicorn start $(test $? -eq 0 && echo "successfully" || echo "failed")."
         ;;  
     stop)  
-        echo -e "\t## stop unicorn"
-        if test -f ${pid_file} 
-        then
-            kill -quit `cat ${pid_file}`  
-            echo -e "\t unicorn stop $(test $? -eq 0 && echo "successfully" || echo "failed")."
-        else
-            echo -e "\t unicorn stop failed - process not exist."
-        fi
+        echo "## stop unicorn"
+        kill -QUIT `cat tmp/pids/unicorn.pid`  
+        echo -e "\t unicorn stop $(test $? -eq 0 && echo "successfully" || echo "failed")."
         ;;  
     restart|force-reload)  
-        kill -usr2 `cat tmp/pids/unicorn.pid`  
+        #kill -USR2 `cat tmp/pids/unicorn.pid`
+        sh unicorn.sh stop
+        echo -e "\n\n-----------command sparate line----------\n\n"
+        sh unicorn.sh start
         ;;  
-    rake)
-        echo -e "\trake task list:\n"
-        echo -e "\tRACK_ENV=${environment} bundle exec rake agent:clear"
-        echo -e "\tRACK_ENV=${environment} bundle exec rake agent:deploy"
-        echo -e "\tRACK_ENV=${environment} bundle exec rake agent:check"
-        echo -e "\tRACK_ENV=${environment} bundle exec rake agent:main"
-        echo -e "\tRACK_ENV=${environment} bundle exec rake remote:deploy"
+    deploy)
+        echo "RACK_ENV=production bundle exec rake remote:deploy"
         ;;
     *)  
-        echo "usage: $scriptname {start|stop|restart|force-reload|rake}" >&2  
+        echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload|deploy}" >&2  
         exit 3  
         ;;  
 esac  
